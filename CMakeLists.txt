@@ -11,4 +11,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(--coverage -Wall -Werror)
 
 rock_init()
+rock_feature(NOCURDIR)
 rock_standard_layout()

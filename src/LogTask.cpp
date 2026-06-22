@@ -11,11 +11,17 @@
 #include <rtt/types/Types.hpp>
 #include <string>
 
-LogTask::LogTask(const std::string& taskName, const std::string& prefix)
+LogTask::LogTask(const std::string& taskName, const std::string& prefix, const std::string& renaming)
     : prefixedName(prefix + taskName)
+    , originalName(taskName)
 {
     try
     {
+        if(!renaming.empty())
+        {
+            prefixedName = prefix + renaming;
+        }
+
         task = std::unique_ptr<RTT::TaskContext>(new RTT::TaskContext(prefixedName));
         RTT::corba::TaskContextServer::Create(task.get());
         RTT::corba::CorbaDispatcher* dispatcher = RTT::corba::CorbaDispatcher::Instance(task->ports());
@@ -188,7 +194,7 @@ void LogTask::checkTaskStateChange(std::unique_ptr<PortHandle>& portHandle)
 bool LogTask::isStreamForThisTask(const pocolog_cpp::InputDataStream& inputStream)
 {
     auto taskName = LogFileHelper::splitStreamName(inputStream.getName()).first;
-    return prefixedName.find(taskName) != std::string::npos;
+    return prefixedName.find(taskName) != std::string::npos || originalName.find(taskName) != std::string::npos;
 }
 
 LogTask::PortCollection LogTask::getPortCollection()

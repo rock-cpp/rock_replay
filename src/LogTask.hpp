@@ -109,8 +109,9 @@ public:
      *
      * @param taskName: Name of orocos task.
      * @param prefix: Prefix to add for task.
+     * @param renaming: Renaming for task.
      */
-    LogTask(const std::string& taskName, const std::string& prefix);
+    LogTask(const std::string& taskName, const std::string& prefix, const std::string& renaming = "");
 
     /**
      * @brief Destructor.
@@ -216,6 +217,12 @@ private:
      *
      */
     std::string prefixedName;
+
+    /**
+     * @brief Original task name in case of renaming.
+     * 
+     */
+    std::string originalName;
 
     /**
      * @brief Orocos task context. Is deleted automatically on LogTask destructor call.

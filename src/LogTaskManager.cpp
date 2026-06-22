@@ -11,9 +11,13 @@ LogTaskManager::LogTaskManager()
     orocos.initialize(config);
 }
 
-void LogTaskManager::init(const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList)
+void LogTaskManager::init(
+    const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList,
+    const std::map<std::string, std::string>& renamings)
 {
     this->prefix = prefix;
+    this->renamings = renamings;
+    
     streamName2LogTask.clear();
     multiFileIndex = pocolog_cpp::MultiFileIndex(false);
     multiFileIndex.registerStreamCheck([&](pocolog_cpp::Stream* st) {
@@ -100,7 +104,13 @@ LogTask& LogTaskManager::findOrCreateLogTask(const std::string& streamName)
 
     if(!logTask)
     {
-        logTask = std::make_shared<LogTask>(taskNameAndPort.first, prefix);
+        std::string renaming;
+        if(renamings.find(taskNameAndPort.first) != renamings.end())
+        {
+            renaming = renamings.at(taskNameAndPort.first);
+        }
+
+        logTask = std::make_shared<LogTask>(taskNameAndPort.first, prefix, renaming);
     }
 
     streamName2LogTask.emplace(streamName, logTask);

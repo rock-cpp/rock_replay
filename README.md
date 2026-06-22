@@ -14,6 +14,8 @@ Available options:
   --prefix arg          add prefix to all tasks
   --whitelist arg       comma-separated list of regular expressions to filter 
                         streams
+  --headless            only use the cli
+  --rename arg          rename task, e.g. trajectory_follower:traj_follower
   --log-files arg       log files
 ```
 

@@ -71,8 +71,11 @@ public:
      * @param fileNames: List of filenames to load. Filenames must be absolute.
      * @param prefix: Prefix to add for all LogTasks.
      * @param whiteList: List of regular expressions to filter whitelisted streams.
+     * @param renamings: Map of task renamings.
      */
-    void init(const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList = {});
+    void init(
+        const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList = {},
+        const std::map<std::string, std::string>& renamings = {});
 
     /**
      * @brief Sets the replay pointer to the given index. The sample
@@ -128,7 +131,7 @@ private:
      * If the stream does not contain a model name in its metadata, a loading
      * via the stream name is attempted.
      * Finally, the stream is added to its corresponding log task.
-     * 
+     *
      * @param inputStram: InputDataStream to load typekits for and to add to a log task.
      * @return True if the stream was added to the log task.
      */
@@ -166,4 +169,10 @@ private:
      *
      */
     std::map<std::string, std::shared_ptr<LogTask>> streamName2LogTask;
+
+    /**
+     * @brief Map of renamings for tasks.
+     * 
+     */
+    std::map<std::string, std::string> renamings;
 };

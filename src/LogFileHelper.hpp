@@ -43,7 +43,7 @@ public:
     /**
      * @brief Checks whether a stream name is whitelisted given the list of regular expressions,
      * An empty list of regular expressions indicates returns always true.
-     * 
+     *
      * @param streamName: Name of the stream.
      * @param whiteListRegEx: List of regular expressions to check against.
      * @return True is stream is whitelisted, false otherwise.

@@ -10,9 +10,11 @@ ReplayHandler::~ReplayHandler()
     deinit();
 }
 
-void ReplayHandler::init(const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList)
+void ReplayHandler::init(
+    const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList,
+    const std::map<std::string, std::string>& renamings)
 {
-    manager.init(fileNames, prefix, whiteList);
+    manager.init(fileNames, prefix, whiteList, renamings);
     gotSamplesToPlay = manager.getNumSamples();
     targetSpeed = 1.;
     currentSpeed = 0;
@@ -186,9 +188,9 @@ void ReplayHandler::pause()
     currentSpeed = 0;
 }
 
-//GCOVR_EXCL_START
+// GCOVR_EXCL_START
 void ReplayHandler::activateReplayForPort(const std::string& taskName, const std::string& portName, bool on)
 {
     manager.activateReplayForPort(taskName, portName, on);
 }
-//GCOVR_EXCL_STOP
+// GCOVR_EXCL_STOP

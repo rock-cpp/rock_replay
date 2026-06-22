@@ -19,7 +19,7 @@ ReplayGui::ReplayGui(QMainWindow* parent)
     tasksModel->setHorizontalHeaderLabels(QStringList({"Taskname", "Type"}));
     ui.taskNameList->setColumnWidth(0, 300);
 
-    if(this->palette().color(QPalette::Window).black() > 150)  // dark theme used, background must be dark as well
+    if(this->palette().color(QPalette::Window).black() > 150) // dark theme used, background must be dark as well
     {
         ui.taskNameList->setPalette(this->palette().color(QPalette::Window));
     }
@@ -33,7 +33,7 @@ ReplayGui::ReplayGui(QMainWindow* parent)
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::red);
     ui.curPortName->setPalette(palette);
-    
+
     // icons
     playIcon.addFile(
         QString::fromUtf8(":/icons/icons/Icons-master/picol_latest_prerelease_svg/controls_play.svg"), QSize(), QIcon::Normal, QIcon::On);
@@ -61,9 +61,11 @@ ReplayGui::~ReplayGui()
     replayHandler.stop();
 }
 
-void ReplayGui::initReplayHandler(const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList)
+void ReplayGui::initReplayHandler(
+    const std::vector<std::string>& fileNames, const std::string& prefix, const std::vector<std::string>& whiteList,
+    const std::map<std::string, std::string>& renamings)
 {
-    replayHandler.init(fileNames, prefix, whiteList);
+    replayHandler.init(fileNames, prefix, whiteList, renamings);
 
     QString title;
     // window title

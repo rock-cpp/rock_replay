@@ -27,7 +27,7 @@ void setup()
     multiFileIndex.createIndex(fileNames);
 }
 
-std::unique_ptr<LogTask> createLogTask(const std::string& taskName, const std::string& prefix = "")
+std::unique_ptr<LogTask> createLogTask(const std::string& taskName, const std::string& prefix = "", const std::string& renaming = "")
 {
     try
     {
@@ -37,7 +37,7 @@ std::unique_ptr<LogTask> createLogTask(const std::string& taskName, const std::s
     {
     }
 
-    std::unique_ptr<LogTask> logTask = std::unique_ptr<LogTask>(new LogTask(taskName, prefix));
+    std::unique_ptr<LogTask> logTask = std::unique_ptr<LogTask>(new LogTask(taskName, prefix, renaming));
     return logTask;
 }
 
@@ -53,6 +53,16 @@ BOOST_AUTO_TEST_CASE(TestTaskCreation)
 
     BOOST_TEST(trajectoryFollowerTask->getName() == "trajectory_follower");
     BOOST_TEST(missingTask->getName() == "prefix/non_existing");
+}
+
+BOOST_AUTO_TEST_CASE(TestRenameTask)
+{
+    setup();
+
+    auto otherTrajFollower = createLogTask("trajectory_follower", "", "other_trajectory_follower");
+
+    BOOST_TEST(otherTrajFollower->isValid());
+    BOOST_TEST(otherTrajFollower->getName() == "other_trajectory_follower");
 }
 
 BOOST_AUTO_TEST_CASE(TestStreamLoadingSuccessful)

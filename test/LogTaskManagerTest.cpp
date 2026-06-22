@@ -62,3 +62,21 @@ BOOST_AUTO_TEST_CASE(TestTaskActivateReplayForPort)
     BOOST_TEST(replayedSampleActivated);
     BOOST_TEST(!replayedSampleDeactivated);
 }
+
+BOOST_AUTO_TEST_CASE(TestTaskWhitelist)
+{
+    manager.init(fileNames, "", {"foo"});
+
+    BOOST_TEST(manager.getTaskCollection().empty());
+}
+
+BOOST_AUTO_TEST_CASE(TestTaskRenaming)
+{
+    manager.init(fileNames, "", {}, {{"trajectory_follower", "foo"}});
+
+    auto taskCollection = manager.getTaskCollection();
+    BOOST_TEST(taskCollection.size() == 1);
+
+    bool containsRenamedTask = taskCollection.find("foo") != taskCollection.end();
+    BOOST_TEST(containsRenamedTask);
+}
